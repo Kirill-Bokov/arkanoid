@@ -5,6 +5,6 @@ export abstract class Scene implements SceneType {
   public readonly container = new Container();
 
   abstract init(): void;
-  abstract update(delta: number): void;
+  abstract update(deltaTime: number): void;
   abstract destroy(): void;
 }

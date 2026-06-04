@@ -1,5 +1,5 @@
 export interface SceneType {
   init(): void;
-  update(delta: number): void;
+  update(deltaTime: number): void;
   destroy(): void;
 }

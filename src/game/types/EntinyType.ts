@@ -1,6 +1,6 @@
 import { Rectangle } from "pixi.js";
 
 export interface EntityType {
-  update(delta: number): void;
+  update(deltaTime: number): void;
   getBounds(): Rectangle;
 }
