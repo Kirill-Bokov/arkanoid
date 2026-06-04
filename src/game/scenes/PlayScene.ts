@@ -1,43 +1,35 @@
 import { Scene } from "./Scene";
 import { Graphics } from "pixi.js";
 import { Paddle } from "../entities/Paddle";
-import { PADDLE_HEIGHT, PADDLE_WIDTH } from "../GameConfig";
+import { PADDLE_HEIGHT, PADDLE_WIDTH, GAME_WIDTH, GAME_HEIGHT } from "../GameConfig";
 
 export class PlayScene extends Scene {
-  private background!: Graphics;
+  private background: Graphics;
   private paddle: Paddle;
+
   public init(): void {
     this.background = new Graphics();
 
-    this.background.rect(0, 0, 800, 600);
+    this.background.rect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     this.background.fill("#120e33ff");
 
     this.container.addChild(this.background);
+
     this.paddle = new Paddle(
-      340,
-      550,
+      GAME_WIDTH / 2 - PADDLE_WIDTH / 2,
+      GAME_HEIGHT - 50,
       PADDLE_WIDTH,
       PADDLE_HEIGHT
     );
 
-    this.container.addChild(
-      this.paddle.view
-    );
-  }
-private direction = 1;
-  public update(deltaTime: number): void {
-  this.paddle.moveTo(
-    this.paddle.x + 4 * this.direction * deltaTime
-  );
-
-  if (this.paddle.x > 680) {
-    this.direction = -1;
+    this.container.addChild(this.paddle.view);
   }
 
-  if (this.paddle.x < 0) {
-    this.direction = 1;
-  }
-}
+   public update(deltaTime: number): void {
+    const mouseX = this.input.getMouseX();
+
+    this.paddle.moveTo(mouseX - PADDLE_WIDTH / 2);
+   }
 
   public destroy(): void {
     this.container.removeChildren();

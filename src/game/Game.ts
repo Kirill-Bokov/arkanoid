@@ -2,10 +2,12 @@ import { Application } from "pixi.js";
 import { GAME_HEIGHT, GAME_WIDTH } from "./GameConfig";
 import type { Scene } from "./scenes/Scene";
 import { PlayScene } from "./scenes/PlayScene";
+import { InputSystem } from "./systems/InputSystem";
 
 export class Game {
     private app!: Application;
     private currentScene!: Scene;
+    private input!: InputSystem;
 
     public async start(): Promise<void> {
         this.app = new Application();
@@ -18,12 +20,17 @@ export class Game {
         });
 
         const root = document.getElementById("game-root");
+        if (!root) throw new Error("game-root not found");
+
         root.appendChild(this.app.canvas);
+        this.input = new InputSystem(this.app.canvas);
+        this.input.init();
+        this.changeScene(
+            new PlayScene(this.input)
+        );
 
-        this.changeScene(new PlayScene());
-
-        this.app.ticker.add((ticker) => {
-            this.update(ticker.deltaTime);
+        this.app.ticker.add(() => {
+            this.update(this.app.ticker.deltaTime);
         });
     }
 
@@ -38,7 +45,6 @@ export class Game {
         this.currentScene.init();
         this.app.stage.addChild(this.currentScene.container);
     }
-
     private update(delta: number): void {
         if (this.currentScene) {
             this.currentScene.update(delta);
