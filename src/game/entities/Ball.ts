@@ -9,14 +9,18 @@ export class Ball {
   public velocityY: number;
   public radius: number;
 
+  private readonly speed: number = 5;
+
   public readonly view: Graphics;
 
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
-    this.velocityX = 0;
-    this.velocityY = 5;
+
     this.radius = BALL_RADIUS;
+
+    this.velocityX = 0;
+    this.velocityY = -this.speed;
 
     this.view = new Graphics();
     this.draw();
@@ -34,8 +38,16 @@ export class Ball {
     this.y += this.velocityY * deltaTime;
 
     this.handleWallCollision();
-
     this.syncView();
+  }
+
+  public bounceFromPaddle(hitPoint: number): void {
+    const maxAngle = Math.PI / 3;
+
+    const angle = hitPoint * maxAngle;
+
+    this.velocityX = Math.sin(angle) * this.speed;
+    this.velocityY = -Math.cos(angle) * this.speed;
   }
 
   private handleWallCollision(): void {
@@ -58,13 +70,13 @@ export class Ball {
       this.reset();
     }
   }
-  //В будущем переделать так, чтобы платформа тоже центровалась в этот момент
+
   public reset(): void {
     this.x = GAME_WIDTH / 2;
-    this.y = GAME_HEIGHT -80;
+    this.y = GAME_HEIGHT - 80;
 
     this.velocityX = 0;
-    this.velocityY = 5;
+    this.velocityY = -this.speed;
   }
 
   public getBounds(): Rectangle {

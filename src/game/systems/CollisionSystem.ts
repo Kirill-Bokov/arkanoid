@@ -1,9 +1,14 @@
 import type { Paddle } from "../entities/Paddle";
 import type { Ball } from "../entities/Ball";
 
+export type PaddleCollision = {
+  collided: boolean;
+  hitPoint?: number;
+};
+
 export class CollisionSystem {
 
-  public checkBallPaddle(ball: Ball, paddle: Paddle): void {
+  public checkBallPaddle(ball: Ball, paddle: Paddle): PaddleCollision {
     const ballLeft = ball.x - ball.radius;
     const ballRight = ball.x + ball.radius;
     const ballTop = ball.y - ball.radius;
@@ -20,14 +25,16 @@ export class CollisionSystem {
       ballBottom >= paddleTop &&
       ballTop <= paddleBottom;
 
-    if (!isColliding) return;
+    if (!isColliding) {
+      return { collided: false };
+    }
 
-    this.resolveBallPaddle(ball, paddle);
-  }
+    const hitPoint =
+      ((ball.x - paddle.x) / paddle.width) * 2 - 1;
 
-  private resolveBallPaddle(ball: Ball, paddle: Paddle): void {
-
-    ball.velocityY = Math.abs(ball.velocityY) * -1;
-    ball.y = paddle.y - ball.radius;
+    return {
+      collided: true,
+      hitPoint
+    };
   }
 }

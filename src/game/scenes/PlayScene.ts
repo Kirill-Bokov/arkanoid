@@ -33,16 +33,24 @@ export class PlayScene extends Scene {
 
     this.collision = new CollisionSystem();
   }
-
-  public update(deltaTime: number): void {
-    const mouseX = this.input.getMouseX();
-
-    this.paddle.moveTo(mouseX - PADDLE_WIDTH / 2);
-    this.ball.update(deltaTime);
-    this.collision.checkBallPaddle(this.ball, this.paddle);
-  }
-
-  public destroy(): void {
+public destroy(): void {
     this.container.removeChildren();
+}
+
+public update(deltaTime: number): void {
+  const mouseX = this.input.getMouseX();
+
+  this.paddle.moveTo(mouseX - PADDLE_WIDTH / 2);
+
+  this.ball.update(deltaTime);
+
+  const collision =
+    this.collision.checkBallPaddle(this.ball, this.paddle);
+
+  if (collision.collided && collision.hitPoint !== undefined) {
+    this.ball.bounceFromPaddle(collision.hitPoint);
+    this.ball.y = this.paddle.y - this.ball.radius;
   }
+}
+
 }
