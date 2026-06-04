@@ -1,4 +1,5 @@
 import { Graphics, Rectangle } from "pixi.js";
+import { GAME_WIDTH } from "../GameConfig";
 
 export class Paddle {
     public readonly view: Graphics;
@@ -6,8 +7,8 @@ export class Paddle {
     public x: number;
     public y: number;
 
-    private readonly width: number;
-    private readonly height: number;
+    public width: number;
+    public height: number;
 
     constructor(
         x: number,
@@ -44,9 +45,15 @@ export class Paddle {
     }
 
     public moveTo(x: number): void {
-        this.x = x;
-        this.view.x = this.x;
-    }
+
+    const minX = 0;
+    const maxX = GAME_WIDTH - this.width;
+
+    this.x = Math.max(minX, Math.min(x, maxX));
+
+    this.view.x = this.x;
+  }
+
 
     public getBounds(): Rectangle {
         return new Rectangle(
