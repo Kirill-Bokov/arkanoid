@@ -6,6 +6,7 @@ import { Ball } from "../entities/Ball";
 
 import { CollisionSystem } from "../systems/CollisionSystem";
 import { BrickManager } from "../systems/BrickManager";
+import { LevelManager } from "../systems/LevelManager";
 import { GameStats } from "../systems/GameStats";
 
 import {
@@ -15,6 +16,8 @@ import {
   PADDLE_HEIGHT
 } from "../GameConfig";
 
+import { level1 } from "../levels/level1";
+
 export class PlayScene extends Scene {
   private background!: Graphics;
 
@@ -23,7 +26,8 @@ export class PlayScene extends Scene {
 
   private collision!: CollisionSystem;
   private brickManager!: BrickManager;
-  private stats!: GameStats;
+  private levelManager!: LevelManager;
+  private stats: GameStats;
 
   public init(): void {
     this.createBackground();
@@ -34,8 +38,9 @@ export class PlayScene extends Scene {
     this.createPaddle();
     this.createBall();
 
-    this.createBrickManager();
-    this.setupBrickEvents();
+    this.createBrickSystem();
+    //this.setupBrickEvents();
+    this.loadLevel();
   }
 
   public update(deltaTime: number): void {
@@ -79,17 +84,21 @@ export class PlayScene extends Scene {
     this.container.addChild(this.ball.view);
   }
 
-  private createBrickManager(): void {
+  private createBrickSystem(): void {
     this.brickManager = new BrickManager(this.container);
-    this.brickManager.createLevel();
+    this.levelManager = new LevelManager(this.brickManager);
   }
 
-  private setupBrickEvents(): void {
-    this.brickManager.setOnBrickDestroyed(() => {
-      this.stats.addScore(100);
-      this.stats.addDestroyed();
-    });
+  private loadLevel(): void {
+    this.levelManager.loadLevel(level1);
   }
+
+  //private setupBrickEvents(): void {
+  //  this.brickManager.setOnBrickDestroyed(() => {
+  //    this.stats.addScore(100);
+  //    this.stats.addDestroyed();
+  //  });
+ // }
 
   private updatePaddle(): void {
     const mouseX = this.input.getMouseX();

@@ -41,6 +41,7 @@ export class Brick {
     const color =
       this.hp === 3 ? "#ff4d4d" :
       this.hp === 2 ? "#ffa500" :
+      this.hp === Infinity ? "ffffff" :
       "#ffff66";
 
     this.view.rect(0, 0, this.width, this.height);
