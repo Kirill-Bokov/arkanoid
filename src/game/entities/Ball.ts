@@ -50,6 +50,10 @@ export class Ball {
     this.velocityY = -Math.cos(angle) * this.speed;
   }
 
+  public bounceVertical(): void {
+  this.velocityY *= -1;
+}
+
   private handleWallCollision(): void {
     if (this.x - this.radius <= 0) {
       this.x = this.radius;

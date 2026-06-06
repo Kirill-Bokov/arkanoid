@@ -1,10 +1,8 @@
 import type { Paddle } from "../entities/Paddle";
 import type { Ball } from "../entities/Ball";
+import type { Brick } from "../entities/Brick";
+import type { BrickCollision, PaddleCollision } from "../types/GameTypes";
 
-export type PaddleCollision = {
-  collided: boolean;
-  hitPoint?: number;
-};
 
 export class CollisionSystem {
 
@@ -35,6 +33,20 @@ export class CollisionSystem {
     return {
       collided: true,
       hitPoint
+    };
+  }
+  public checkBallBrick(ball: Ball, brick: Brick): BrickCollision {
+    const isColliding =
+      ball.x + ball.radius >= brick.x &&
+      ball.x - ball.radius <= brick.x + brick.width &&
+      ball.y + ball.radius >= brick.y &&
+      ball.y - ball.radius <= brick.y + brick.height;
+
+    if (!isColliding) return { collided: false };
+
+    return {
+      collided: true,
+      brick
     };
   }
 }
