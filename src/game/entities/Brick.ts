@@ -10,17 +10,13 @@ export class Brick {
   public readonly height: number;
 
   private hp: number;
-  private maxHp: number;
 
-  constructor(x: number, y: number, width: number, height: number, hp: number, maxHp: number) {
+  constructor(x: number, y: number, width: number, height: number, hp: number) {
     this.x = x;
     this.y = y;
-
     this.width = width;
     this.height = height;
-
     this.hp = hp;
-    this.maxHp = hp;
 
     this.view = new Graphics();
 
