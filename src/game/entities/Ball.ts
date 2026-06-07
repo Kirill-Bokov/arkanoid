@@ -1,5 +1,5 @@
 import { Graphics, Rectangle } from "pixi.js";
-import { GAME_HEIGHT, GAME_WIDTH } from "../GameConfig";
+import { GAME_WIDTH, GAME_HEIGHT } from "../GameConfig";
 
 export class Ball {
   public x: number;
@@ -10,7 +10,7 @@ export class Ball {
   public radius: number;
 
   private readonly speed: number = 5;
-
+  private attachedToPaddle: boolean = false;
   public readonly view: Graphics;
 
   constructor(x: number, y: number, radius: number) {
@@ -34,6 +34,11 @@ export class Ball {
   }
 
   public update(deltaTime: number): void {
+    if (this.attachedToPaddle) {
+      this.syncView();
+      return;
+    }
+
     this.x += this.velocityX * deltaTime;
     this.y += this.velocityY * deltaTime;
 
@@ -73,17 +78,13 @@ export class Ball {
       this.velocityY *= -1;
     }
 
-    if (this.y - this.radius >= GAME_HEIGHT) {
-      this.reset();
-    }
   }
 
-  public reset(): void {
-    this.x = GAME_WIDTH / 2;
-    this.y = GAME_HEIGHT - 80;
-
+  public reset(paddle: { x: number; y: number }): void {
     this.velocityX = 0;
-    this.velocityY = -this.speed;
+    this.velocityY = 0;
+
+    this.attachToPaddle(paddle);
   }
 
   public getBounds(): Rectangle {
@@ -98,5 +99,27 @@ export class Ball {
   private syncView(): void {
     this.view.x = this.x;
     this.view.y = this.y;
+  }
+
+  public attachToPaddle(paddle: { x: number; y: number }): void {
+    this.attachedToPaddle = true;
+
+    this.velocityX = 0;
+    this.velocityY = 0;
+
+    this.x = paddle.x;
+    this.y = paddle.y - 60;
+
+    this.syncView();
+  }
+
+  public launch(): void {
+    this.attachedToPaddle = false;
+
+    this.velocityX = 0;
+    this.velocityY = this.speed;
+  }
+  public isLost(): boolean {
+    return this.y > GAME_HEIGHT;
   }
 }

@@ -16,10 +16,10 @@ export class LayoutCalculator {
       brickWidth / this.BRICK_RATIO;
 
     const paddleWidth =
-      brickWidth * 2;
+      brickWidth * 1.5;
 
     const paddleHeight =
-      brickHeight;
+      brickHeight * 0.5;
 
     const ballRadius =
       brickHeight * 0.4;
