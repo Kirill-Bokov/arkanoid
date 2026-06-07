@@ -7,16 +7,16 @@ import { Ball } from "../entities/Ball";
 import { CollisionSystem } from "../systems/CollisionSystem";
 import { BrickManager } from "../systems/BrickManager";
 import { LevelManager } from "../systems/LevelManager";
-import { GameStats } from "../systems/GameStats";
+//import { GameStats } from "../systems/GameStats";
 
 import {
   GAME_WIDTH,
   GAME_HEIGHT,
-  PADDLE_WIDTH,
-  PADDLE_HEIGHT
 } from "../GameConfig";
 
 import { level1 } from "../levels/level1";
+import { LayoutCalculator } from "../LayoutCalculator";
+import type { LayoutMetrics } from "../types/GameTypes";
 
 export class PlayScene extends Scene {
   private background!: Graphics;
@@ -27,13 +27,16 @@ export class PlayScene extends Scene {
   private collision!: CollisionSystem;
   private brickManager!: BrickManager;
   private levelManager!: LevelManager;
-  private stats: GameStats;
+  private metrics!: LayoutMetrics;
+  //private stats: GameStats;
 
   public init(): void {
+    this.metrics =
+      LayoutCalculator.calculate(level1);
     this.createBackground();
 
     this.collision = new CollisionSystem();
-    this.stats = new GameStats();
+    //this.stats = new GameStats();
 
     this.createPaddle();
     this.createBall();
@@ -65,24 +68,29 @@ export class PlayScene extends Scene {
   }
 
   private createPaddle(): void {
-    this.paddle = new Paddle(
-      GAME_WIDTH / 2 - PADDLE_WIDTH / 2,
-      GAME_HEIGHT - 50,
-      PADDLE_WIDTH,
-      PADDLE_HEIGHT
-    );
 
-    this.container.addChild(this.paddle.view);
-  }
+  this.paddle = new Paddle(
+    GAME_WIDTH / 2 - this.metrics.paddleWidth / 2,
+    GAME_HEIGHT - 50,
+
+    this.metrics.paddleWidth,
+    this.metrics.paddleHeight
+  );
+
+  this.container.addChild(this.paddle.view);
+}
 
   private createBall(): void {
-    this.ball = new Ball(
-      GAME_WIDTH / 2,
-      GAME_HEIGHT / 2
-    );
+  this.ball = new Ball(
+    GAME_WIDTH / 2,
+    GAME_HEIGHT / 2,
+    this.metrics.ballRadius
+  );
 
-    this.container.addChild(this.ball.view);
-  }
+  this.container.addChild(
+    this.ball.view
+  );
+}
 
   private createBrickSystem(): void {
     this.brickManager = new BrickManager(this.container);
@@ -90,7 +98,7 @@ export class PlayScene extends Scene {
   }
 
   private loadLevel(): void {
-    this.levelManager.loadLevel(level1);
+    this.levelManager.loadLevel(level1, this.metrics);
   }
 
   //private setupBrickEvents(): void {
@@ -98,7 +106,7 @@ export class PlayScene extends Scene {
   //    this.stats.addScore(100);
   //    this.stats.addDestroyed();
   //  });
- // }
+  // }
 
   private updatePaddle(): void {
     const mouseX = this.input.getMouseX();

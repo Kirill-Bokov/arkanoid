@@ -1,5 +1,5 @@
 import { Graphics, Rectangle } from "pixi.js";
-import { BALL_RADIUS, GAME_HEIGHT, GAME_WIDTH } from "../GameConfig";
+import { GAME_HEIGHT, GAME_WIDTH } from "../GameConfig";
 
 export class Ball {
   public x: number;
@@ -13,11 +13,11 @@ export class Ball {
 
   public readonly view: Graphics;
 
-  constructor(x: number, y: number) {
+  constructor(x: number, y: number, radius: number) {
     this.x = x;
     this.y = y;
 
-    this.radius = BALL_RADIUS;
+    this.radius = radius;
 
     this.velocityX = 0;
     this.velocityY = -this.speed;

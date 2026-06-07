@@ -1,40 +1,49 @@
-import type { BrickType, LevelSchema } from "../types/GameTypes";
+import type { BrickType, LayoutMetrics, LevelSchema } from "../types/GameTypes";
 import { BrickFactory } from "./BrickFactory";
 import { BrickManager } from "./BrickManager";
 
 export class LevelManager {
 
-  private brickManager: BrickManager;
+    private brickManager: BrickManager;
 
-  constructor(brickManager: BrickManager) {
-    this.brickManager = brickManager;
-  }
-
-  public loadLevel(level: LevelSchema): void {
-
-    for (let y = 0; y < level.rows; y++) {
-      for (let x = 0; x < level.cols; x++) {
-
-        const type: BrickType = level.grid[y][x];
-
-        if (!type || type === "empty") continue;
-
-        const worldX =
-          level.offsetX + x * (level.brickWidth + level.padding);
-
-        const worldY =
-          level.offsetY + y * (level.brickHeight + level.padding);
-
-        const brick = BrickFactory.create(
-          worldX,
-          worldY,
-          level.brickWidth,
-          level.brickHeight,
-          type
-        );
-
-        this.brickManager.add(brick);
-      }
+    constructor(brickManager: BrickManager) {
+        this.brickManager = brickManager;
     }
-  }
+
+    public loadLevel(
+        level: LevelSchema,
+        metrics: LayoutMetrics
+    ): void {
+
+        for (let row = 0; row < level.rows; row++) {
+
+            for (let col = 0; col < level.cols; col++) {
+
+                const type =
+                    level.grid[row][col] as BrickType;
+
+                if (type === "empty") {
+                    continue;
+                }
+
+                const x =
+                    col * metrics.brickWidth;
+
+                const y =
+                    level.offsetY +
+                    row * metrics.brickHeight;
+
+                const brick = BrickFactory.create(
+                    x,
+                    y,
+                    metrics.brickWidth,
+                    metrics.brickHeight,
+                    type
+                );
+
+                this.brickManager.add(brick);
+            }
+        }
+    }
+
 }

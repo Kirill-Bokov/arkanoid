@@ -4,12 +4,6 @@ export const level1: LevelSchema = {
   rows: 8,
   cols: 12,
 
-  brickWidth: 60,
-  brickHeight: 20,
-
-  padding: 6,
-
-  offsetX: 30,
   offsetY: 60,
 
   grid: [

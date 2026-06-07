@@ -11,19 +11,25 @@ export type PaddleCollision = {
   hitPoint?: number;
 };
 
-export type BrickType = "empty" | "normal" | "strong" | "unbreakable";
+export type BrickType =
+  | "empty"
+  | "normal"
+  | "strong"
+  | "unbreakable";
 
 export interface LevelSchema {
   rows: number;
   cols: number;
+  offsetY: number;
+  grid: BrickType[][];
+}
 
+export interface LayoutMetrics {
   brickWidth: number;
   brickHeight: number;
 
-  padding: number;
+  paddleWidth: number;
+  paddleHeight: number;
 
-  offsetX: number;
-  offsetY: number;
-
-  grid: BrickType[][];
+  ballRadius: number;
 }
