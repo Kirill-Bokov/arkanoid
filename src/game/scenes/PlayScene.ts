@@ -69,28 +69,28 @@ export class PlayScene extends Scene {
 
   private createPaddle(): void {
 
-  this.paddle = new Paddle(
-    GAME_WIDTH / 2 - this.metrics.paddleWidth / 2,
-    GAME_HEIGHT - 50,
+    this.paddle = new Paddle(
+      GAME_WIDTH / 2 - this.metrics.paddleWidth / 2,
+      GAME_HEIGHT - 50,
 
-    this.metrics.paddleWidth,
-    this.metrics.paddleHeight
-  );
+      this.metrics.paddleWidth,
+      this.metrics.paddleHeight
+    );
 
-  this.container.addChild(this.paddle.view);
-}
+    this.container.addChild(this.paddle.view);
+  }
 
   private createBall(): void {
-  this.ball = new Ball(
-    GAME_WIDTH / 2,
-    GAME_HEIGHT / 2,
-    this.metrics.ballRadius
-  );
+    this.ball = new Ball(
+      GAME_WIDTH / 2,
+      GAME_HEIGHT / 2,
+      this.metrics.ballRadius
+    );
 
-  this.container.addChild(
-    this.ball.view
-  );
-}
+    this.container.addChild(
+      this.ball.view
+    );
+  }
 
   private createBrickSystem(): void {
     this.brickManager = new BrickManager(this.container);
@@ -120,26 +120,22 @@ export class PlayScene extends Scene {
   private handlePaddleCollision(): void {
     const collision =
       this.collision.checkBallPaddle(this.ball, this.paddle);
-
-    if (!collision.collided || collision.hitPoint === undefined) return;
-
-    this.ball.bounceFromPaddle(collision.hitPoint);
-
+    if (!collision.collided) return;
+    this.ball.bounceFromPaddle(collision.hitPoint!);
     this.ball.y = this.paddle.y - this.ball.radius;
   }
 
   private handleBrickCollisions(): void {
-    for (const brick of this.brickManager.getAll()) {
 
+    for (const brick of this.brickManager.getAll()) {
       const collision =
         this.collision.checkBallBrick(this.ball, brick);
-
       if (!collision.collided) continue;
-
-      this.ball.bounceVertical();
-
+      this.ball.reflect(
+        collision.normalX!,
+        collision.normalY!
+      );
       this.brickManager.handleHit(brick);
-
       break;
     }
   }

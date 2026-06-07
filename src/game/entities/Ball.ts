@@ -40,19 +40,22 @@ export class Ball {
     this.handleWallCollision();
     this.syncView();
   }
+  public reflect(nx: number, ny: number): void {
+    const dot =
+      this.velocityX * nx +
+      this.velocityY * ny;
 
+    this.velocityX -= 2 * dot * nx;
+    this.velocityY -= 2 * dot * ny;
+  }
   public bounceFromPaddle(hitPoint: number): void {
     const maxAngle = Math.PI / 3;
-
     const angle = hitPoint * maxAngle;
 
     this.velocityX = Math.sin(angle) * this.speed;
     this.velocityY = -Math.cos(angle) * this.speed;
   }
 
-  public bounceVertical(): void {
-  this.velocityY *= -1;
-}
 
   private handleWallCollision(): void {
     if (this.x - this.radius <= 0) {

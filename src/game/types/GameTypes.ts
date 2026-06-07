@@ -1,15 +1,12 @@
-import type { Brick } from "../entities/Brick";
-
-
-export type BrickCollision = {
+export interface CollisionResult {
   collided: boolean;
-  brick?: Brick;
-};
 
-export type PaddleCollision = {
-  collided: boolean;
-  hitPoint?: number;
-};
+  normalX?: number;
+  normalY?: number;
+
+  hitPoint?: number; 
+  target?: unknown;
+}
 
 export type BrickType =
   | "empty"
