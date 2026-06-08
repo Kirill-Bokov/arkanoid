@@ -14,5 +14,5 @@ export abstract class Scene implements SceneType {
 
     abstract init(): void;
     abstract update(deltaTime: number): void;
-    abstract destroy(): void;
+
 }

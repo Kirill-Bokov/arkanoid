@@ -1,11 +1,10 @@
 import { Brick } from "../entities/Brick";
 import type { Container } from "pixi.js";
 
-export type BrickDestroyedCallback = (brick: Brick) => void;
-
 export class BrickManager {
   private bricks: Brick[] = [];
   private container: Container;
+
   constructor(container: Container) {
     this.container = container;
   }
@@ -20,12 +19,15 @@ export class BrickManager {
     this.bricks = this.bricks.filter(b => b !== brick);
   }
 
-  public handleHit(brick: Brick): void {
+  public handleHit(brick: Brick): boolean {
     brick.takeDamage(1);
 
     if (brick.isDestroyed()) {
       this.remove(brick);
+      return true;
     }
+
+    return false;
   }
 
   public getAll(): readonly Brick[] {
@@ -36,4 +38,10 @@ export class BrickManager {
     return this.bricks.length === 0;
   }
 
+  public reset(): void {
+    for (const brick of this.bricks) {
+      this.container.removeChild(brick.view);
+    }
+    this.bricks = [];
+  }
 }
