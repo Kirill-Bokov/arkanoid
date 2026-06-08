@@ -2,6 +2,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  background-color: #120e33;
 }
 
 #game-root {
@@ -9,4 +10,16 @@ html, body {
   align-items: center;
   justify-content: center;
   margin-top: 100px;
+}
+
+#title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 64px;
+  color: #ffffff;
+  text-align: center;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  letter-spacing: 2px;
 }

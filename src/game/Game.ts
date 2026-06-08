@@ -36,7 +36,6 @@ export class Game {
 
     public changeScene(scene: Scene): void {
         if (this.currentScene) {
-            this.currentScene.destroy();
             this.app.stage.removeChild(this.currentScene.container);
         }
 
