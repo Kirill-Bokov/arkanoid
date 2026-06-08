@@ -15,11 +15,12 @@ export class BrickFactory {
                 return new Brick(x, y, width, height, 0);
 
             case "normal":
-                return new Brick(x, y, width, height, 2);
+                return new Brick(x, y, width, height, 1);
 
             case "strong":
+                return new Brick(x, y, width, height, 2);
+            case "very_strong":
                 return new Brick(x, y, width, height, 3);
-
             case "unbreakable":
                 return new Brick(x, y, width, height, Infinity);
         }

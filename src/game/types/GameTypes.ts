@@ -12,6 +12,7 @@ export type BrickType =
   | "empty"
   | "normal"
   | "strong"
+  | "very_strong"
   | "unbreakable";
 
 export interface LevelSchema {

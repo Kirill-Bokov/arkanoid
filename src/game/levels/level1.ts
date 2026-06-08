@@ -3,33 +3,32 @@ import type { LevelSchema } from "../types/GameTypes";
 export const level1: LevelSchema = {
   rows: 8,
   cols: 12,
-
   offsetY: 60,
-
   grid: [
     [
-      "empty","empty","empty","strong","strong","strong","strong","strong","empty","empty","empty","empty"
+      "strong", "strong", "normal", "empty", "normal", "strong", "strong", "normal", "empty", "normal", "strong", "strong"
     ],
     [
-      "empty","empty","strong","strong","normal","normal","normal","strong","strong","empty","empty","empty"
+      "strong", "normal", "very_strong", "normal", "empty", "strong", "strong", "empty", "normal", "very_strong", "normal", "strong"
     ],
     [
-      "empty","strong","strong","normal","normal","normal","normal","normal","strong","strong","empty","empty"
+      "strong", "empty", "normal", "normal", "empty", "strong", "strong", "empty", "normal", "normal", "empty", "strong"
     ],
     [
-      "strong","strong","normal","normal","normal","empty","normal","normal","normal","strong","strong","empty"
+      "strong", "normal", "empty", "very_strong", "empty", "normal", "normal", "empty", "very_strong", "empty", "normal", "strong"
     ],
     [
-      "strong","normal","normal","empty","normal","empty","normal","empty","normal","normal","strong","strong"
+      "strong", "strong", "normal", "empty", "normal", "normal", "normal", "normal", "empty", "normal", "strong", "strong"
     ],
     [
-      "strong","strong","normal","normal","normal","normal","normal","normal","normal","strong","strong","empty"
+      "strong", "empty", "empty", "strong", "empty", "strong", "strong", "empty", "strong", "empty", "empty", "strong"
     ],
     [
-      "empty","strong","strong","normal","normal","normal","normal","normal","strong","strong","empty","empty"
+      "strong", "normal", "strong", "empty", "normal", "strong", "strong", "normal", "empty", "strong", "normal", "strong"
     ],
     [
-      "empty","empty","strong","strong","strong","unbreakable","unbreakable","strong","strong","empty","empty","empty"
+      "strong", "strong", "strong", "strong", "strong", "strong", "strong", "strong", "strong", "strong", "strong", "strong"
     ]
   ]
+
 };

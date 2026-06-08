@@ -9,7 +9,7 @@ export class Ball {
   public velocityY: number;
   public radius: number;
 
-  private readonly speed: number = 5;
+  private readonly speed: number = 6;
   private attachedToPaddle: boolean = false;
   public readonly view: Graphics;
 
